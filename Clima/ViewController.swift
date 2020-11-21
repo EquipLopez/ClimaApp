@@ -54,9 +54,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         print(buscarTexto.text!)
         ciudad.text = buscarTexto.text
         climaManager.fetchClima(nombreCiudad: buscarTexto.text!)
-    
+        
     }
-    
-
 }
 
