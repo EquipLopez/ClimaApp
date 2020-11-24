@@ -8,9 +8,21 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, ClimaManagerDelegate {
+    func atualizarClima(clima: ClimaModelo) {
+        
+        temperatura.text = clima.temperaturaDecimal
+        
+        
+    }
+    
+    
+    
     
     var climaManager = ClimaManager()
+    
+    
+    @IBOutlet weak var climafondo: UIImageView!
     
     @IBOutlet weak var buscarButton: UIButton!
     
@@ -23,6 +35,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        
+        climaManager.delegado = self
         
         buscarTexto.delegate = self
         

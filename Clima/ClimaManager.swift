@@ -8,7 +8,13 @@
 
 import Foundation
 
+protocol ClimaManagerDelegate {
+    func actualizarClima(clima: ClimaModelo)
+}
+
 struct ClimaManager {
+    var delegado: ClimaManagerDelegate?
+    
     let climaURL = "https://api.openweathermap.org/data/2.5/weather?appid=bcaa596725bf26c710c8cf89b2360c4b&units=metric&lang=es"
     
     
@@ -40,7 +46,10 @@ struct ClimaManager {
                     //print(dataString!)
                     
                     //Decodificar el obj JSON de la Api
-                    self.parseJSON(climaData: datosSeguros)
+                    if let clima = self.parseJSON(climaData: datosSeguros){
+                        self.delegado?.actualizarClima(clima: clima)
+                    }
+                    
                 }
             }
             
@@ -50,20 +59,30 @@ struct ClimaManager {
     }
     
     
-    func parseJSON(climaData: Data){
+    func parseJSON(climaData: Data) -> ClimaModelo? {
         let decoder = JSONDecoder()
         
         do {
         let dataDecodificada = try decoder.decode(ClimaData.self, from: climaData)
-            print(dataDecodificada.name)
-            print(dataDecodificada.cod)
-            print(dataDecodificada.main.temp)
-            print(dataDecodificada.main.humidity)
-            print(dataDecodificada.weather[0].description)
-            print("latitud: \(dataDecodificada.coord.lat)")
-            print("longuitud: \(dataDecodificada.coord.lon)")
+            //print(dataDecodificada.name)
+            //print(dataDecodificada.cod)
+            //print(dataDecodificada.main.temp)
+            //print(dataDecodificada.main.humidity)
+            //print(dataDecodificada.weather[0].description)
+            //print("latitud: \(dataDecodificada.coord.lat)")
+            //print("longuitud: \(dataDecodificada.coord.lon)")
+            let id = dataDecodificada.weather[0].id
+            let nombre = dataDecodificada.name
+            let descripcion = dataDecodificada.weather[0].description
+            let temperatura = dataDecodificada.main.temp
+            
+            let ObjClima = ClimaModelo(condicionID: id, nombreCiudad: nombre, descripcionClima: descripcion, temperaturaCelcius: temperatura)
+            
+            return ObjClima
+            
         }catch{
             print(error)
+            return nil
         }
     }
 }

@@ -14,6 +14,7 @@
 		8AC9E1B6255D7DAD009CD081 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AC9E1B4255D7DAD009CD081 /* Main.storyboard */; };
 		8AC9E1B8255D7DB8009CD081 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8AC9E1B7255D7DB8009CD081 /* Assets.xcassets */; };
 		8AC9E1BB255D7DB8009CD081 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8AC9E1B9255D7DB8009CD081 /* LaunchScreen.storyboard */; };
+		8ADE25B1256CA9DB00FEE8EC /* ClimaModelo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADE25B0256CA9DB00FEE8EC /* ClimaModelo.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		8AC9E1B7255D7DB8009CD081 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8AC9E1BA255D7DB8009CD081 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8AC9E1BC255D7DB8009CD081 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8ADE25B0256CA9DB00FEE8EC /* ClimaModelo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClimaModelo.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				8AC9E1BC255D7DB8009CD081 /* Info.plist */,
 				8A062C202568439C001605DB /* ClimaManager.swift */,
 				8A062C22256864A0001605DB /* ClimaData.swift */,
+				8ADE25B0256CA9DB00FEE8EC /* ClimaModelo.swift */,
 			);
 			path = Clima;
 			sourceTree = "<group>";
@@ -142,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8AC9E1B3255D7DAD009CD081 /* ViewController.swift in Sources */,
+				8ADE25B1256CA9DB00FEE8EC /* ClimaModelo.swift in Sources */,
 				8A062C212568439C001605DB /* ClimaManager.swift in Sources */,
 				8A062C23256864A0001605DB /* ClimaData.swift in Sources */,
 				8AC9E1B1255D7DAD009CD081 /* AppDelegate.swift in Sources */,

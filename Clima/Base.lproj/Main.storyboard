@@ -63,6 +63,10 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="cloud.bolt" translatesAutoresizingMaskIntoConstraints="NO" id="xGb-dx-zNc">
+                                <rect key="frame" x="36" y="205" width="67" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -71,6 +75,7 @@
                         <outlet property="buscarButton" destination="VaY-tL-ipC" id="pxK-eE-LBP"/>
                         <outlet property="buscarTexto" destination="xh5-Io-kBD" id="CAq-GF-xl5"/>
                         <outlet property="ciudad" destination="t0F-1t-crf" id="Yii-ie-hqu"/>
+                        <outlet property="climafondo" destination="WbD-hc-aUE" id="h7L-cu-ZK7"/>
                         <outlet property="temperatura" destination="oIy-hp-XCL" id="KPv-1p-SQv"/>
                     </connections>
                 </viewController>
@@ -81,5 +86,6 @@
     </scenes>
     <resources>
         <image name="clima-fondo" width="320" height="480"/>
+        <image name="cloud.bolt" width="16" height="16"/>
     </resources>
 </document>
