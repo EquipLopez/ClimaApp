@@ -9,10 +9,14 @@
 import Foundation
 
 protocol ClimaManagerDelegate {
-    func actualizarClima(clima: ClimaModelo)
+    func actualizaClima(clima: ClimaModelo)
+    
+    func huboError(cualError: Error)
+    
 }
 
 struct ClimaManager {
+    
     var delegado: ClimaManagerDelegate?
     
     let climaURL = "https://api.openweathermap.org/data/2.5/weather?appid=bcaa596725bf26c710c8cf89b2360c4b&units=metric&lang=es"
@@ -25,6 +29,10 @@ struct ClimaManager {
         realizarSolicitud(urlString: urlString)
     }
     
+    func fechtClima(lat: Double, lon: Double){
+       let urlString = "\(climaURL)&lat=\(lat)&lon=\(lon)"
+    }
+    
     func realizarSolicitud(urlString: String){
         //1. crear la url
         if let url = URL(string: urlString){
@@ -33,21 +41,18 @@ struct ClimaManager {
             let session = URLSession(configuration: .default)
                 
                 // 3- asignar una tarea a la session
-            //let tarea = session.dataTask(with: url, completionHandler: handle(data:respuesta:error:))
             let tarea = session.dataTask(with: url) { (data, respuesta, error) in
                 if error != nil {
-                    print(error!)
+                    //print(error!)
+                    self.delegado?.huboError(cualError: error!)
                     return
                 }
                 
                 if let datosSeguros = data {
-                    //necesitamos convertir esa data a tipo string
-                    //let dataString = String(data: datosSeguros, encoding: .utf8)
-                    //print(dataString!)
-                    
+                  
                     //Decodificar el obj JSON de la Api
                     if let clima = self.parseJSON(climaData: datosSeguros){
-                        self.delegado?.actualizarClima(clima: clima)
+                        self.delegado?.actualizaClima(clima: clima)
                     }
                     
                 }
@@ -65,23 +70,20 @@ struct ClimaManager {
         do {
         let dataDecodificada = try decoder.decode(ClimaData.self, from: climaData)
             //print(dataDecodificada.name)
-            //print(dataDecodificada.cod)
-            //print(dataDecodificada.main.temp)
-            //print(dataDecodificada.main.humidity)
-            //print(dataDecodificada.weather[0].description)
-            //print("latitud: \(dataDecodificada.coord.lat)")
-            //print("longuitud: \(dataDecodificada.coord.lon)")
+            
             let id = dataDecodificada.weather[0].id
             let nombre = dataDecodificada.name
             let descripcion = dataDecodificada.weather[0].description
             let temperatura = dataDecodificada.main.temp
             
+            //crear obj personalizado
             let ObjClima = ClimaModelo(condicionID: id, nombreCiudad: nombre, descripcionClima: descripcion, temperaturaCelcius: temperatura)
             
             return ObjClima
             
         }catch{
-            print(error)
+            //print(error)
+            delegado?.huboError(cualError: error)
             return nil
         }
     }

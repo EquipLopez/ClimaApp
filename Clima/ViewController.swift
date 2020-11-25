@@ -7,17 +7,41 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ViewController: UIViewController, UITextFieldDelegate, ClimaManagerDelegate {
-    func atualizarClima(clima: ClimaModelo) {
+    func huboError(cualError: Error) {
         
-        temperatura.text = clima.temperaturaDecimal
+        DispatchQueue.main.async {
+            self.ciudad.text = cualError.localizedDescription
+            
+        }
+            print(cualError.localizedDescription)
+     
+    }
+    
+    func actualizaClima(clima: ClimaModelo) {
         
+        DispatchQueue.main.async {
+            self.temperatura.text = clima.temperaturaDecimal
+            self.ciudad.text = clima.descripcionClima
+            self.climafondo.image = UIImage(named: clima.condicionClima)
+            
+        }
+        
+        
+        
+        
+        print(clima.temperaturaCelcius)
+        print(clima.condicionID)
+        print()
         
     }
     
+ 
     
     
+    var locationManager = CLLocationManager()
     
     var climaManager = ClimaManager()
     
@@ -36,12 +60,40 @@ class ViewController: UIViewController, UITextFieldDelegate, ClimaManagerDelegat
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        locationManager.delegate = self
         
         climaManager.delegado = self
         
         buscarTexto.delegate = self
         
     }
+
+    @IBAction func buscarCiudad(_ sender: UIButton) {
+        print(buscarTexto.text!)
+        ciudad.text = buscarTexto.text
+        climaManager.fetchClima(nombreCiudad: buscarTexto.text!)
+        
+    }
+}
+
+
+///extension ViewController: ClimaManagerDelegate {
+    
+//}
+
+
+extension ViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: ) {
+        <#function body#>
+    }
+}
+
+
+
+
+
+//MARK: - Delegado del TextField
+extension ViewController : UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField){
         buscarTexto.text = ""
@@ -49,7 +101,8 @@ class ViewController: UIViewController, UITextFieldDelegate, ClimaManagerDelegat
     
     //activar el codigo del boton buscar en el teclado
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        print(buscarTexto.text!)
+        //print(buscarTexto.text!)
+        climaManager.fetchClima(nombreCiudad: buscarTexto.text!)
         return true
     }
     
@@ -64,12 +117,4 @@ class ViewController: UIViewController, UITextFieldDelegate, ClimaManagerDelegat
         }
     }
     
-    
-    @IBAction func buscarCiudad(_ sender: UIButton) {
-        print(buscarTexto.text!)
-        ciudad.text = buscarTexto.text
-        climaManager.fetchClima(nombreCiudad: buscarTexto.text!)
-        
-    }
 }
-

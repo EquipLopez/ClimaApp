@@ -18,21 +18,21 @@ struct ClimaModelo {
     var condicionClima: String {
         switch condicionID {
         case 200...232:
-            return "tormenta"
+            return "tormenta.jpg"
         case 300...321:
-            return "llovizna"
+            return "llovizna.jpg"
         case 500...531:
-            return "lluvia"
+            return "lluvia.jpg"
         case 600...622:
-            return "Nieve"
+            return "nieve.jpg"
         case 701...781:
             return ""
         case 800:
-            return "cielo limpio"
+            return "climalimpio.jpg"
         case 801...804:
-            return "nubes"
+            return "nubes.jpg"
         default:
-            return "nube"
+            return "clima-fondo.jpg"
         }
     }
     
