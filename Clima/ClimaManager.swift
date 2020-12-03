@@ -31,6 +31,8 @@ struct ClimaManager {
     
     func fechtClima(lat: Double, lon: Double){
        let urlString = "\(climaURL)&lat=\(lat)&lon=\(lon)"
+        
+        realizarSolicitud(urlString: urlString)
     }
     
     func realizarSolicitud(urlString: String){
@@ -75,9 +77,18 @@ struct ClimaManager {
             let nombre = dataDecodificada.name
             let descripcion = dataDecodificada.weather[0].description
             let temperatura = dataDecodificada.main.temp
+            let icon = dataDecodificada.weather[0].icon
+            let velocidad = dataDecodificada.wind.speed
+            let humedad = dataDecodificada.main.humidity
+            let tempmax = dataDecodificada.main.temp_max
+            let tempmin = dataDecodificada.main.temp_min
+            
             
             //crear obj personalizado
-            let ObjClima = ClimaModelo(condicionID: id, nombreCiudad: nombre, descripcionClima: descripcion, temperaturaCelcius: temperatura)
+            //let ObjClima = ClimaModelo(condicionID: id, nombreCiudad: nombre, descripcionClima: descripcion, temperaturaCelcius: temperatura)
+            
+            let ObjClima = ClimaModelo(condicionID: id, nombreCiudad: nombre, descripcionClima: descripcion, temperaturaCelcius: temperatura, icono: icon, velclima: velocidad, humedad: humedad, tempmax: tempmax, tempmin: tempmin)
+            
             
             return ObjClima
             

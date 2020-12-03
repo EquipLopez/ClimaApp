@@ -9,37 +9,8 @@
 import UIKit
 import CoreLocation
 
-class ViewController: UIViewController, UITextFieldDelegate, ClimaManagerDelegate {
-    func huboError(cualError: Error) {
-        
-        DispatchQueue.main.async {
-            self.ciudad.text = cualError.localizedDescription
-            
-        }
-            print(cualError.localizedDescription)
-     
-    }
-    
-    func actualizaClima(clima: ClimaModelo) {
-        
-        DispatchQueue.main.async {
-            self.temperatura.text = clima.temperaturaDecimal
-            self.ciudad.text = clima.descripcionClima
-            self.climafondo.image = UIImage(named: clima.condicionClima)
-            
-        }
-        
-        
-        
-        
-        print(clima.temperaturaCelcius)
-        print(clima.condicionID)
-        print()
-        
-    }
-    
- 
-    
+
+class ViewController: UIViewController{
     
     var locationManager = CLLocationManager()
     
@@ -56,11 +27,24 @@ class ViewController: UIViewController, UITextFieldDelegate, ClimaManagerDelegat
     
     @IBOutlet weak var temperatura: UILabel!
     
+    
+    @IBOutlet weak var viento: UILabel!
+    
+    @IBOutlet weak var humedad: UILabel!
+    @IBOutlet weak var tempmax: UILabel!
+    
+    @IBOutlet weak var tempmin: UILabel!
+    
+    @IBOutlet weak var liconoc: UIImageView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
         locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation() //obtener la ubicacion
         
         climaManager.delegado = self
         
@@ -74,22 +58,69 @@ class ViewController: UIViewController, UITextFieldDelegate, ClimaManagerDelegat
         climaManager.fetchClima(nombreCiudad: buscarTexto.text!)
         
     }
+    
+    
+    @IBAction func obtenerUbicacion(_ sender: UIButton) {
+        
+        locationManager.requestLocation()
+    }
+    
 }
 
 
-///extension ViewController: ClimaManagerDelegate {
+
+// MARK: - Hacer la peticion a la API
+extension ViewController: ClimaManagerDelegate {
+ 
     
-//}
-
-
-extension ViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: ) {
-        <#function body#>
+    func huboError(cualError: Error) {
+        
+        DispatchQueue.main.async {
+            self.ciudad.text = cualError.localizedDescription
+            
+        }
+        print(cualError.localizedDescription)
+        
+    }
+    
+    func actualizaClima(clima: ClimaModelo) {
+        
+        DispatchQueue.main.async {
+            //self.liconoc.image = UIImage(named: clima.icono)
+            self.temperatura.text = clima.temperaturaDecimal
+            self.ciudad.text = "En \(clima.nombreCiudad), hay \(clima.descripcionClima)"
+            self.climafondo.image = UIImage(named: clima.condicionClima)
+            self.viento.text = "velocidad de viento: \(String(clima.velclima)) Km/h"
+            self.humedad.text = "humedad: \(String(clima.humedad)) % "
+            self.tempmax.text = "temperatura maxima: \(String(clima.tempmax)) °C"
+            self.tempmin.text = "temperatura minima: \(String(clima.tempmin)) °C"
+            
+        }
+        
+        print(clima.temperaturaCelcius)
+        print(clima.condicionID)
+        
     }
 }
 
-
-
+//MARK: - obtener la ubicacion del usuario
+extension ViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("ubicacion obtenida")
+        if  let ubicacion = locations.last{
+            locationManager.stopUpdatingLocation()
+            let lat = ubicacion.coordinate.latitude
+            let lon = ubicacion.coordinate.longitude
+            print("lat: \(lat), lon: \(lon)")
+            
+            climaManager.fechtClima(lat: lat, lon: lon)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+}
 
 
 //MARK: - Delegado del TextField
